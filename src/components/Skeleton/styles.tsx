@@ -1,9 +1,31 @@
-import styled, { css } from "styled-components";
-
-import { blink } from "./animation";
+import styled, { css, keyframes } from "styled-components";
 import { SkeletonProps } from "./Skeleton";
 
 export type SkeletonDefaultProps = Omit<SkeletonProps, "children">;
+
+export const blink = keyframes`
+  0% {
+      opacity: 0.5;
+    }
+  50% {
+      opacity: 1;
+  }
+  100% {
+      opacity: 0.5;
+  }
+`;
+
+export const wave = keyframes`
+  0% {
+      left: 0%;
+    }
+  50% {
+      left: 50%;
+  }
+  100% {
+      left: 100%;
+  }
+`;
 
 export const Skelcontainer = styled.div<SkeletonDefaultProps>`
   display: flex;

@@ -1,8 +1,12 @@
 import { ReactNode } from "react";
 import styled, { css } from "styled-components";
 
-import { blink } from "./animation";
-import { Skelcontainer, SkeletonDefaultProps, SkelItemDefault } from "./styles";
+import {
+  blink,
+  Skelcontainer,
+  SkeletonDefaultProps,
+  SkelItemDefault,
+} from "./styles";
 
 type CircleProps = Partial<SkeletonDefaultProps> & {
   radius: string;
