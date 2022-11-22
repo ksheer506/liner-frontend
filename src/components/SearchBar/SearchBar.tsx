@@ -2,17 +2,23 @@
 import { colors } from "assets";
 import styled from "styled-components";
 import { ReactComponent as IcSearch } from "../../assets/images/search.svg";
-import { ReactComponent as IcDelete } from "../../assets/images/delete.svg";
+
 import { KeyboardEvent, useCallback } from "react";
 import { forwardRef } from "react";
 import { useRef } from "react";
 import { ComponentType } from "react";
 import { useNavigate } from "react-router";
+import { DeleteInput } from "components/Buttons";
 
 interface WithSearch {
   onSearch(e: KeyboardEvent<HTMLInputElement>): void;
   onDelete(): void;
 }
+
+type SearchBarProps = WithSearch & {
+  initialValue?: string;
+  className?: string;
+};
 
 const withSearch =
   <P extends object>(Component: ComponentType<P & WithSearch>) =>
@@ -25,7 +31,7 @@ const withSearch =
         if (!(currentTarget instanceof Element)) return;
         if (key !== "Enter") return;
 
-        navigate(`/search&keyword=${currentTarget.value}`);
+        navigate(`/search?keyword=${currentTarget.value}`);
       },
       []
     );
@@ -47,15 +53,18 @@ const withSearch =
     );
   };
 
-const SearchBar = forwardRef<HTMLInputElement, WithSearch>(
-  ({ onSearch, onDelete }, ref) => {
+const SearchBar = forwardRef<HTMLInputElement, SearchBarProps>(
+  ({ initialValue, onSearch, onDelete, className }, ref) => {
     return (
-      <Box>
-        <Input placeholder="Search keyword" ref={ref} onKeyUp={onSearch} />
+      <Box className={className}>
+        <Input
+          defaultValue={initialValue}
+          placeholder="Search keyword"
+          ref={ref}
+          onKeyUp={onSearch}
+        />
         <IconSearch />
-        <DeleteButton onClick={onDelete}>
-          <IconDelete />
-        </DeleteButton>
+        <DeleteInput onDelete={onDelete} />
       </Box>
     );
   }
@@ -105,28 +114,4 @@ const IconSearch = styled(IcSearch)`
   ${Input}:is(:hover,:focus) ~ & > path {
     fill: ${colors("liner50")};
   } ;
-`;
-
-const DeleteButton = styled.button`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border: 0;
-  padding: 0;
-  background-color: rgba(0, 0, 0, 0);
-  position: absolute;
-  top: 50%;
-  right: 18px;
-  transform: translate(0, -50%);
-`;
-
-const IconDelete = styled(IcDelete)`
-  & > path {
-    fill: ${colors("gray35")};
-    transition: 400ms all;
-  }
-
-  ${DeleteButton}:hover & > path {
-    fill: ${colors("gray30")};
-  }
 `;
