@@ -1,8 +1,10 @@
 import styled from "styled-components";
-import { ReactComponent as IcBookmark } from "../../assets/images/ic_bookmark.svg";
+
 import DefaultThumb from "../../assets/images/default_thumb.png";
 import DefaultFavi from "../../assets/images/default_favi.png";
 import { colors } from "assets";
+import { ToggleBookmark } from "components/Buttons";
+import { sliceURL } from "utils";
 
 interface ContentItemProps {
   title: string;
@@ -21,7 +23,9 @@ export const ContentItem = ({
 }: ContentItemProps) => {
   return (
     <List>
-      <Image src={mainImage || DefaultThumb} />
+      <a href={url} target="_blank" rel="noopener noreferrer">
+        <Image src={mainImage || DefaultThumb} />
+      </a>
       <ContentBox>
         <Header>
           <a href={url} target="_blank" rel="noopener noreferrer">
@@ -30,17 +34,13 @@ export const ContentItem = ({
         </Header>
         <Footer>
           <Thumbnail src={faviconImage || DefaultFavi} />
-          <URL>heybunny.io</URL>
+          <URL>{sliceURL(url)}</URL>
         </Footer>
       </ContentBox>
-      <button>
-        <BookmarkIcon />
-      </button>
+      <ToggleBookmark isBookmarked={isBookmarked} />
     </List>
   );
 };
-
-
 
 const List = styled.li`
   display: flex;
@@ -57,9 +57,7 @@ const Image = styled.img`
   width: 72px;
   height: 72px;
   border-radius: 15px;
-
-  background: linear-gradient(269.93deg, #00c3cc 0%, #438dff 100%);
-  opacity: 0.3;
+  object-fit: cover;
 `;
 
 const ContentBox = styled.section`
@@ -108,14 +106,4 @@ const URL = styled.p`
   font-size: 13px;
   color: ${colors("gray35")};
   margin: 0px;
-`;
-
-const BookmarkIcon = styled(IcBookmark)`
-  & > path {
-    transition: 400ms all;
-  }
-
-  &:hover > path {
-    fill: ${colors("liner50")};
-  }
 `;
