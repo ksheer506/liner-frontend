@@ -8,7 +8,7 @@ import { forwardRef } from "react";
 import { useRef } from "react";
 import { ComponentType } from "react";
 import { useNavigate } from "react-router";
-import { DeleteInput } from "components/Buttons";
+import { DeleteButton } from "components/Buttons";
 
 interface WithSearch {
   onSearch(e: KeyboardEvent<HTMLInputElement>): void;
@@ -64,7 +64,7 @@ const SearchBar = forwardRef<HTMLInputElement, SearchBarProps>(
           onKeyUp={onSearch}
         />
         <IconSearch />
-        <DeleteInput onDelete={onDelete} />
+        <DeleteButton onDelete={onDelete} />
       </Box>
     );
   }
