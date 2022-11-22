@@ -1,6 +1,7 @@
 export const theme = {
   colors: {
     gray30: "#C2C6CE",
+    gray35: "#959CA6",
     gray50: "#33373D",
 
     liner05: "#00ebf750",
