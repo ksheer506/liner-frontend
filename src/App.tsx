@@ -1,8 +1,13 @@
-import { Main } from "components";
+import { Main, Search } from "pages";
+import { Route, Routes } from "react-router";
 
 function App() {
-  return <Main></Main>;
+  return (
+    <Routes>
+      <Route path="/" element={<Main />} />
+      <Route path="/search" element={<Search />} />
+    </Routes>
+  );
 }
 
 export default App;
-

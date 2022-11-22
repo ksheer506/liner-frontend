@@ -7,6 +7,7 @@ import { QueryClient, QueryClientProvider } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
 import { ThemeProvider } from "styled-components";
 import { GlobalStyles, theme } from "assets";
+import { BrowserRouter } from "react-router-dom";
 
 const queryClient = new QueryClient();
 const root = ReactDOM.createRoot(document.getElementById("root")!);
@@ -16,7 +17,9 @@ root.render(
     <QueryClientProvider client={queryClient}>
       <GlobalStyles />
       <ThemeProvider theme={theme}>
-        <App />
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
       </ThemeProvider>
       <ReactQueryDevtools />
     </QueryClientProvider>
