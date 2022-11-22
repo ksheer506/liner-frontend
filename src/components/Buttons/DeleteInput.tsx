@@ -14,12 +14,6 @@ export const DeleteInput = ({ onDelete }: DeleteInputProps) => {
 };
 
 const DeleteButton = styled.button`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border: 0;
-  padding: 0;
-  background-color: rgba(0, 0, 0, 0);
   position: absolute;
   top: 50%;
   right: 18px;
