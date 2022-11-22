@@ -15,34 +15,33 @@ type CircleProps = Partial<SkeletonDefaultProps> & {
 export interface SkeletonProps {
   width: string;
   height: string;
+  bgColor?: string;
   children: ReactNode;
   animation?: "blink" | "wave";
 }
 
 export const Rectangle = styled.div<SkeletonDefaultProps>`
-  border-radius: 5px;
+  border-radius: 4px;
   position: relative;
   overflow: hidden;
-  background-color: #f0f0f0;
   animation: ${blink} 1.5s ease infinite;
 
-  ${({ width, height }) =>
-    width &&
-    height &&
+  ${({ width, height, bgColor }) =>
     css`
       width: ${width};
       height: ${height};
+      background-color: ${bgColor || "#f0f0f0"};
     `}
 `;
 
 export const Circle = styled(SkelItemDefault)<CircleProps>`
   border-radius: 100%;
 
-  ${({ radius }) =>
-    radius &&
+  ${({ radius, bgColor }) =>
     css`
       width: ${radius};
       height: ${radius};
+      background-color: ${bgColor || "#f0f0f0"};
     `}
 `;
 
