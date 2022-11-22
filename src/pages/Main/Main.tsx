@@ -1,22 +1,22 @@
-import { Search } from "components/Search/Search";
+import { SearchBar } from "components";
 import styled from "styled-components";
 import { ReactComponent as Liner } from "../../assets/images/logo.svg";
 
 export const Main = () => {
   return (
-    <MainBox>
+    <Box>
       <Liner />
-      <Search />
-    </MainBox>
+      <SearchBar />
+    </Box>
   );
 };
 
-const MainBox = styled.main`
+const Box = styled.div`
   display: flex;
   flex-flow: column nowrap;
   justify-content: center;
   align-items: center;
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  height: 100%;
   row-gap: 80px;
 `;
