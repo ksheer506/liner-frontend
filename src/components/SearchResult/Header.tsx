@@ -1,13 +1,13 @@
 import { colors, SEARCH_PAGE_HEADER_HEIGHT } from "assets";
 import { PreviousButton } from "components/Buttons";
 import { SearchBarWithSearch } from "components/SearchBar/SearchBar";
-import { useSearchParams } from "react-router-dom";
 import styled from "styled-components";
 
-export const Header = () => {
-  const [searchParams] = useSearchParams();
-  const keyword = searchParams.get("keyword") || undefined;
+interface HeaderProps {
+  keyword?: string
+}
 
+export const Header = ({ keyword }: HeaderProps) => {
   return (
     <HeaderBox>
       <PreviousButton />
