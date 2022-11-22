@@ -10,6 +10,7 @@ export const SharedLayout = () => {
 };
 
 const Main = styled.main`
+  position: relative;
   width: 768px;
   height: 100vh;
   overflow-x: hidden;

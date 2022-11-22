@@ -1,8 +1,7 @@
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 import { ReactComponent as IcBookmark } from "../../assets/images/ic_bookmark.svg";
 import DefaultThumb from "../../assets/images/default_thumb.png";
 import DefaultFavi from "../../assets/images/default_favi.png";
-import { Link } from "react-router-dom";
 import { colors } from "assets";
 
 interface ContentItemProps {
@@ -40,6 +39,8 @@ export const ContentItem = ({
     </List>
   );
 };
+
+
 
 const List = styled.li`
   display: flex;
