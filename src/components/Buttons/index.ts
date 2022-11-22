@@ -1,2 +1,2 @@
-export { DeleteInput } from "./DeleteInput";
-export { PreviousPage } from "./PreviousPage";
+export { DeleteInput as DeleteButton } from "./DeleteInput";
+export { PreviousPage as PreviousButton } from "./PreviousPage";
