@@ -9,7 +9,7 @@ import { memo } from "react";
 import { ImageWithSkeleton } from "components/ImageWithSkeleton/ImageWithSkeleton";
 import { ExternalLink } from "components/ExternalLink/ExternalLink";
 
-interface ContentItemProps {
+interface DocumentItemProps {
   title: string;
   url: string;
   mainImage?: string;
@@ -18,7 +18,7 @@ interface ContentItemProps {
   id: string;
 }
 
-export const ContentItem = memo(
+export const DocumentItem = memo(
   ({
     title,
     url,
@@ -26,7 +26,7 @@ export const ContentItem = memo(
     faviconImage,
     isBookmarked,
     id,
-  }: ContentItemProps) => {
+  }: DocumentItemProps) => {
     return (
       <List>
         <ExternalLink link={url}>

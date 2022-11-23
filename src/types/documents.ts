@@ -1,4 +1,4 @@
-export interface DocumentItem {
+export interface DocumentItemType {
   id: string;
   faviconUrl: string;
   imageUrl: string;
@@ -9,6 +9,6 @@ export interface DocumentItem {
 }
 
 export interface DocumentsResponse {
-  documents: DocumentItem[];
+  documents: DocumentItemType[];
   isLast: boolean;
 }
