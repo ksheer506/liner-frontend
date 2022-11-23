@@ -5,6 +5,9 @@ import DefaultFavi from "../../assets/images/default_favi.png";
 import { colors } from "assets";
 import { ToggleBookmark } from "components/Buttons";
 import { sliceURL } from "utils";
+import { memo} from "react";
+import { ImageWithSkeleton } from "components/ImageWithSkeleton/ImageWithSkeleton";
+import { ExternalLink } from "components/ExternalLink/ExternalLink";
 
 interface ContentItemProps {
   title: string;
@@ -14,33 +17,40 @@ interface ContentItemProps {
   isBookmarked: boolean;
 }
 
-export const ContentItem = ({
-  title,
-  url,
-  mainImage,
-  faviconImage,
-  isBookmarked,
-}: ContentItemProps) => {
-  return (
-    <List>
-      <a href={url} target="_blank" rel="noopener noreferrer">
-        <Image src={mainImage || DefaultThumb} />
-      </a>
-      <ContentBox>
-        <Header>
-          <a href={url} target="_blank" rel="noopener noreferrer">
-            <Title>{title}</Title>
-          </a>
-        </Header>
-        <Footer>
-          <Thumbnail src={faviconImage || DefaultFavi} />
-          <URL>{sliceURL(url)}</URL>
-        </Footer>
-      </ContentBox>
-      <ToggleBookmark isBookmarked={isBookmarked} />
-    </List>
-  );
-};
+export const ContentItem = memo(
+  ({ title, url, mainImage, faviconImage, isBookmarked }: ContentItemProps) => {
+    return (
+      <List>
+        <ExternalLink link={url}>
+          <ImageWithSkeleton
+            image={mainImage || DefaultThumb}
+            defaultImage={DefaultThumb}
+            width="72px"
+            height="72px"
+          />
+        </ExternalLink>
+
+        <ContentBox>
+          <Header>
+            <ExternalLink link={url}>
+              <Title>{title}</Title>
+            </ExternalLink>
+          </Header>
+          <Footer>
+            <ImageWithSkeleton
+              image={faviconImage || DefaultFavi}
+              defaultImage={DefaultFavi}
+              width="14px"
+              height="14px"
+            />
+            <URL>{sliceURL(url)}</URL>
+          </Footer>
+        </ContentBox>
+        <ToggleBookmark isBookmarked={isBookmarked} />
+      </List>
+    );
+  }
+);
 
 const List = styled.li`
   display: flex;
@@ -51,13 +61,6 @@ const List = styled.li`
   height: 104px;
   padding: 0px 40px;
   gap: 16px;
-`;
-
-const Image = styled.img`
-  width: 72px;
-  height: 72px;
-  border-radius: 15px;
-  object-fit: cover;
 `;
 
 const ContentBox = styled.section`
@@ -95,11 +98,6 @@ const Footer = styled.footer`
   flex-flow: row nowrap;
 
   gap: 6px;
-`;
-
-const Thumbnail = styled.img`
-  width: 14px;
-  height: 14px;
 `;
 
 const URL = styled.p`

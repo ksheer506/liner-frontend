@@ -1,4 +1,6 @@
-export  { ContentItemSkeleton } from "./Skeleton/ContentItemSkeleton";
+export { ExternalLink } from "./ExternalLink/ExternalLink";
+export { ImageWithSkeleton } from "./ImageWithSkeleton/ImageWithSkeleton";
+export { ContentItemSkeleton } from "./Skeleton/ContentItemSkeleton";
 export { Circle, Rectangle } from "./Skeleton/Skeleton";
 export { ContentItem } from "./ContentItem/ContentItem";
 export { Header as SearchPageHeader } from "./SearchResult/Header";
