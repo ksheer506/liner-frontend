@@ -39,7 +39,6 @@ const withSearch =
     const handleDelete = useCallback(() => {
       if (!inputRef.current) return;
 
-      /* ref.current.value = ""; */
       inputRef.current.value = "";
     }, []);
 

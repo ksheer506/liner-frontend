@@ -4,7 +4,7 @@ import { SearchBarWithSearch } from "components/SearchBar/SearchBar";
 import styled from "styled-components";
 
 interface HeaderProps {
-  keyword?: string
+  keyword?: string;
 }
 
 export const Header = ({ keyword }: HeaderProps) => {
