@@ -1,15 +1,15 @@
-# frontend-29cm-test-ksheer506
+# liner-frontend
 
 ## 1. 프로젝트 시작 방법
 ```bash
-git clone https://github.com/29CM-Developers/frontend-29cm-test-ksheer506.git
+git clone https://github.com/ksheer506/liner-frontend.git
 ```
 git 원격 저장소를 로컬로 복사합니다.
 
 ```bash
-cd frontend-29cm-test-ksheer506 && npm install
+cd liner-frontend && npm install
 ```
-`frontend-29cm-test-ksheer506` 폴더로 이동 후 node modules를 설치해줍니다.
+`liner-frontend` 폴더로 이동 후 node modules를 설치해줍니다.
 ```bash
 npm start
 ```
