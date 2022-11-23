@@ -69,6 +69,12 @@ const List = styled.li`
   height: 104px;
   padding: 0px 40px;
   gap: 16px;
+  border-radius: 16px;
+  transition: 400ms all;
+
+  &:hover {
+    background-color: ${colors("gray10")};
+  }
 `;
 
 const ContentBox = styled.section`

@@ -13,13 +13,22 @@ export const PreviousPage = () => {
   }, []);
 
   return (
-    <button onClick={handlePrev}>
+    <Button onClick={handlePrev}>
       <Prev />
-    </button>
+    </Button>
   );
 };
 
-const Button = styled.button``;
+const Button = styled.button`
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  transition: 400ms all;
+
+  &:hover {
+    background-color: ${colors("gray10")};
+  }
+`;
 
 const Prev = styled(PrevArrow)`
   width: 21px;

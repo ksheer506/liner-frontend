@@ -3,7 +3,7 @@ import { colors } from "assets";
 import { queryClient } from "index";
 import { ComponentType, useState } from "react";
 import { useMutation } from "react-query";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { ReactComponent as IcBookmark } from "../../assets/images/ic_bookmark.svg";
 import { ReactComponent as IcBookmarked } from "../../assets/images/ic_bookmarked.svg";
 
@@ -63,22 +63,43 @@ const ToggleBookmark = ({
   };
 
   return (
-    <button onClick={handleClick}>
+    <Button onClick={handleClick}>
       {bookmarked ? <Bookmarked /> : <UnBookmarked />}
-    </button>
+    </Button>
   );
 };
 
 export const ToggleBookmarkWithBookmarkAPI = withBookmarkAPI(ToggleBookmark);
 
-const Bookmarked = styled(IcBookmarked)``;
+const Button = styled.button`
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  transition: 400ms all;
+
+  &:hover {
+    background-color: ${colors("gray20")};
+  }
+`;
+
+const defaultBookmark = css`
+  width: 100%;
+  height: 100%;
+  padding: 7px;
+`;
+
+const Bookmarked = styled(IcBookmarked)`
+  ${defaultBookmark}
+`;
 
 const UnBookmarked = styled(IcBookmark)`
+  ${defaultBookmark}
+
   & > path {
     transition: 400ms all;
   }
 
-  &:hover > path {
+  &:hover path {
     fill: ${colors("liner50")};
   }
 `;
