@@ -1,4 +1,4 @@
-export interface Document {
+export interface DocumentItem {
   id: string;
   faviconUrl: string;
   imageUrl: string;
@@ -9,6 +9,6 @@ export interface Document {
 }
 
 export interface DocumentsResponse {
-  documents: Document[];
+  documents: DocumentItem[];
   isLast: boolean;
 }

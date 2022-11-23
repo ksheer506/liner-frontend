@@ -1,4 +1,5 @@
-import { DocumentsResponse } from "types/documents";
+
+import { DocumentsResponse } from "types";
 import { axiosInstance } from "utils";
 
 interface queryDocumentsPayload {
@@ -15,8 +16,6 @@ export const searchDocuments = async ({
   const { data } = await axiosInstance.get<DocumentsResponse>(
     `/search/documents?query=${keyword}&size=${size}&from=${from}`
   );
-
-  console.log(data);
 
   return { ...data };
 };
