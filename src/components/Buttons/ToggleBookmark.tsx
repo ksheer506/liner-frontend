@@ -72,6 +72,7 @@ const ToggleBookmark = ({
 export const ToggleBookmarkWithBookmarkAPI = withBookmarkAPI(ToggleBookmark);
 
 const Button = styled.button`
+  flex: 0 0 max-content;
   width: 40px;
   height: 40px;
   border-radius: 12px;
