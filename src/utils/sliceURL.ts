@@ -3,5 +3,5 @@ export const sliceURL = (url: string) => {
     /(?<=.[http|https]:\/\/www\.)(.*?)(?=\/)|(?<=.[http|https]:\/\/)[^www\.](.*?)(?=\/)/g
   );
 
-  return sliced![0] || url;
+  return sliced?.[0] || url;
 };
