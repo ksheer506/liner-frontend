@@ -17,6 +17,6 @@ const Box = styled.div`
   justify-content: center;
   align-items: center;
   width: 100%;
-  height: 100%;
+  height: 100vh;
   row-gap: 80px;
 `;
