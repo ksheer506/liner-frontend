@@ -1,3 +1,4 @@
+export  { Modal, useModal } from "./Modal";
 export  { DocumentList } from "./Documents/DocumentList";
 export { DocumentItem } from "./Documents/DocumentItem";
 export { DocumentHeader } from "./Documents/DocumentHeader";

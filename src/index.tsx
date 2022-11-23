@@ -8,6 +8,7 @@ import { ReactQueryDevtools } from "react-query/devtools";
 import { ThemeProvider } from "styled-components";
 import { GlobalStyles, theme } from "assets";
 import { BrowserRouter } from "react-router-dom";
+import { Modal } from "components";
 
 export const queryClient = new QueryClient();
 
@@ -18,9 +19,11 @@ root.render(
     <QueryClientProvider client={queryClient}>
       <GlobalStyles />
       <ThemeProvider theme={theme}>
-        <BrowserRouter>
-          <App />
-        </BrowserRouter>
+        <Modal width="360px" height="160px" background>
+          <BrowserRouter>
+            <App />
+          </BrowserRouter>
+        </Modal>
       </ThemeProvider>
       <ReactQueryDevtools />
     </QueryClientProvider>
