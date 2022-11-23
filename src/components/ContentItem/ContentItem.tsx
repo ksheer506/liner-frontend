@@ -5,7 +5,7 @@ import DefaultFavi from "../../assets/images/default_favi.png";
 import { colors } from "assets";
 import { ToggleBookmark } from "components/Buttons";
 import { sliceURL } from "utils";
-import { memo} from "react";
+import { memo } from "react";
 import { ImageWithSkeleton } from "components/ImageWithSkeleton/ImageWithSkeleton";
 import { ExternalLink } from "components/ExternalLink/ExternalLink";
 
@@ -15,10 +15,18 @@ interface ContentItemProps {
   mainImage?: string;
   faviconImage?: string;
   isBookmarked: boolean;
+  id: string;
 }
 
 export const ContentItem = memo(
-  ({ title, url, mainImage, faviconImage, isBookmarked }: ContentItemProps) => {
+  ({
+    title,
+    url,
+    mainImage,
+    faviconImage,
+    isBookmarked,
+    id,
+  }: ContentItemProps) => {
     return (
       <List>
         <ExternalLink link={url}>
@@ -46,7 +54,7 @@ export const ContentItem = memo(
             <URL>{sliceURL(url)}</URL>
           </Footer>
         </ContentBox>
-        <ToggleBookmark isBookmarked={isBookmarked} />
+        <ToggleBookmark itemId={id} isBookmarked={isBookmarked} />
       </List>
     );
   }
