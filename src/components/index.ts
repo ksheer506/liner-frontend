@@ -1,5 +1,6 @@
-export  { Modal, useModal } from "./Modal";
-export  { DocumentList } from "./Documents/DocumentList";
+export { Error } from "./Modal/ModalContent/Error";
+export { Modal, useModal } from "./Modal";
+export { DocumentList } from "./Documents/DocumentList";
 export { DocumentItem } from "./Documents/DocumentItem";
 export { DocumentHeader } from "./Documents/DocumentHeader";
 export { ExternalLink } from "./ExternalLink/ExternalLink";
