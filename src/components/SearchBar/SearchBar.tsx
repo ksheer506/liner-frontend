@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { colors } from "assets";
 import styled from "styled-components";
-import { ReactComponent as IcSearch } from "../../assets/images/search.svg";
+import { ReactComponent as IcSearch } from "../../assets/images/ic_search.svg";
 
 import { forwardRef } from "react";
 import { DeleteButton } from "components/Buttons";

@@ -1,6 +1,6 @@
 import { colors } from "assets";
 import styled from "styled-components";
-import { ReactComponent as IcDelete } from "../../assets/images/delete.svg";
+import { ReactComponent as IcDelete } from "../../assets/images/ic_delete.svg";
 
 interface DeleteInputProps {
   onDelete(): void;
