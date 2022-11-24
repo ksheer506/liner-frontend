@@ -1,6 +1,7 @@
 import { addToBookmark, removeFromBookmark } from "apis";
 import { colors } from "assets";
-import { queryClient } from "index";
+import { useModal } from "components/Modal";
+import { Error } from "components/Modal/ModalContent/Error";
 import { ComponentType, useState } from "react";
 import { useMutation } from "react-query";
 import styled, { css } from "styled-components";
@@ -19,11 +20,18 @@ const withBookmarkAPI =
   <P extends Bookmark>(Component: ComponentType<P>) =>
   (props: P) => {
     const { isBookmarked } = props;
+    const [bookmarked, setBookmarked] = useState(isBookmarked);
+
+    const { openModal, closeModal } = useModal();
     const { mutate: addMutation } = useMutation(
       (itemId: string) => addToBookmark(itemId),
       {
         onSuccess: () => {
-          queryClient.invalidateQueries(["documents"]);
+          setBookmarked((prev) => !prev);
+          openModal(<Error />);
+        },
+        onError: () => {
+          
         },
       }
     );
@@ -31,22 +39,30 @@ const withBookmarkAPI =
       (itemId: string) => removeFromBookmark(itemId),
       {
         onSuccess: () => {
-          queryClient.invalidateQueries(["documents"]);
+          setBookmarked((prev) => !prev);
+        },
+        onError: () => {
+          openModal(<div>Something went wrong</div>);
         },
       }
     );
 
-    if (isBookmarked) {
+    if (bookmarked) {
       return (
         <Component
-          onClick={(itemId: string) => removeMutation(itemId)}
           {...props}
+          onClick={(itemId: string) => removeMutation(itemId)}
+          isBookmarked={bookmarked}
         />
       );
     }
 
     return (
-      <Component onClick={(itemId: string) => addMutation(itemId)} {...props} />
+      <Component
+        {...props}
+        onClick={(itemId: string) => addMutation(itemId)}
+        isBookmarked={bookmarked}
+      />
     );
   };
 
@@ -55,16 +71,9 @@ const ToggleBookmark = ({
   isBookmarked,
   onClick,
 }: ToggleBookmarkProps) => {
-  const [bookmarked, setBookmarked] = useState(isBookmarked);
-
-  const handleClick = () => {
-    onClick?.(itemId);
-    setBookmarked((prev) => !prev);
-  };
-
   return (
-    <Button onClick={handleClick}>
-      {bookmarked ? <Bookmarked /> : <UnBookmarked />}
+    <Button onClick={() => onClick?.(itemId)}>
+      {isBookmarked ? <Bookmarked /> : <UnBookmarked />}
     </Button>
   );
 };
