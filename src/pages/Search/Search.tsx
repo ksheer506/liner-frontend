@@ -14,6 +14,4 @@ const Box = styled.div`
   display: flex;
   flex-flow: column nowrap;
   gap: 10px;
-  /* height: 100vh; */
-  /* overflow: hidden; */
 `;
