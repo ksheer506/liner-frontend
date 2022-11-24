@@ -1,7 +1,7 @@
 import { axiosInstance } from "utils";
 
 export const addToBookmark = async (itemId: string) => {
-  const { data, status } = await axiosInstance.post(
+  const { data, status } = await axiosInstance.post<string>(
     `/collection/document/${itemId}`
   );
 
@@ -9,7 +9,7 @@ export const addToBookmark = async (itemId: string) => {
 };
 
 export const removeFromBookmark = async (itemId: string) => {
-  const { data, status } = await axiosInstance.delete(
+  const { data, status } = await axiosInstance.delete<string>(
     `/collection/document/${itemId}`
   );
 
