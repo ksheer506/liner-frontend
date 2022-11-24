@@ -4,7 +4,6 @@ import { SearchBarWithSearch } from "components/SearchBar/SearchBar";
 import { useSearchParams } from "react-router-dom";
 import styled from "styled-components";
 
-
 export const DocumentHeader = () => {
   const [searchParams] = useSearchParams();
   const keyword = searchParams.get("keyword") || "";
@@ -22,14 +21,15 @@ const HeaderBox = styled.header`
   flex-flow: row nowrap;
   align-items: center;
   z-index: 2;
+  position: fixed;
 
   padding: 0px 40px;
   gap: 18px;
 
-  width: 110%;
+  width: 768px;
   height: ${SEARCH_PAGE_HEADER_HEIGHT};
   background-color: white;
-  box-shadow: 0px 0px 4px ${colors("gray30")};
+  border-bottom: 1px solid ${colors("gray20")};
 `;
 
 const StyledSearch = styled(SearchBarWithSearch)`
