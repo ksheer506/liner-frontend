@@ -15,7 +15,7 @@ export const Background = styled.div`
   left: 0%;
   width: 100vw;
   height: 100vh;
-  background-color: rgba(60, 60, 60, 0.645);
+  background-color: #33373d80;
   opacity: 0.6;
   z-index: 99;
 
@@ -55,7 +55,7 @@ export const ModalMain = styled.div`
     minHeight,
     isMount,
     position = { x: '50%', y: '50%' },
-    borderRadius = '10px',
+    borderRadius = '20px',
     boxShadow,
   }: ModalMainProps) => css`
     min-width: ${minWidth};
