@@ -1,13 +1,17 @@
-import styled, { css } from 'styled-components';
+import styled, { css } from "styled-components";
 
-import { fadeIn, fadeOut } from './animation';
-import { ModalStyle, Position } from './types';
+import { fadeIn, fadeOut } from "./animation";
+import { ModalStyle, Position } from "./types";
 
 export interface BackgroundProps {
   isMount: boolean;
 }
 
 type ModalMainProps = ModalStyle & BackgroundProps;
+
+const isPixel = ({ x, y }: Exclude<Position, undefined>) => {
+  return x.match(/px/g) && y.match(/px/);
+};
 
 export const Background = styled.div`
   position: fixed;
@@ -25,14 +29,11 @@ export const Background = styled.div`
   animation-fill-mode: forwards;
 `;
 
-const isPixel = ({ x, y }: Exclude<Position, undefined>) => {
-  return x.match(/px/g) && y.match(/px/);
-};
-
 export const ModalMain = styled.div`
   position: fixed;
   transform: translate(-50%, -50%);
   background-color: white;
+  border-radius: 20px;
   box-shadow: 1px 1px 3px rgba(143, 143, 143, 0.897);
   box-sizing: border-box;
   z-index: 100;
@@ -50,25 +51,14 @@ export const ModalMain = styled.div`
       height: ${height};
     `}
 
-  ${({
-    minWidth,
-    minHeight,
-    isMount,
-    position = { x: '50%', y: '50%' },
-    borderRadius = '20px',
-    boxShadow,
-  }: ModalMainProps) => css`
-    min-width: ${minWidth};
-    min-height: ${minHeight};
+  ${({ isMount, position = { x: "50%", y: "50%" } }: ModalMainProps) => css`
     animation: ${isMount ? fadeIn : fadeOut} 0.3s ease-out;
-    border-radius: ${borderRadius};
-    box-shadow: ${boxShadow};
 
     ${position &&
     css`
       left: ${position.x};
       top: ${position.y};
-      transform: ${isPixel(position) && 'translate(0, 0)'};
+      transform: ${isPixel(position) && "translate(0, 0)"};
     `}
   `}
   animation-fill-mode: forwards;
