@@ -2,6 +2,7 @@ import { addToBookmark, removeFromBookmark } from "apis";
 import { colors } from "assets";
 import { useModal } from "components/Modal";
 import { Error } from "components/Modal/ModalContent/Error";
+import { useToggleButton } from "hooks";
 import { ComponentType, useState } from "react";
 import { useMutation } from "react-query";
 import styled, { css } from "styled-components";
@@ -20,18 +21,20 @@ const withBookmarkAPI =
   <P extends Bookmark>(Component: ComponentType<P>) =>
   (props: P) => {
     const { isBookmarked } = props;
-    const [bookmarked, setBookmarked] = useState(isBookmarked);
-
-    const { openModal, closeModal } = useModal();
+    const {
+      state: bookmarked,
+      showButton: bookmark,
+      hideButton: unBookmark,
+    } = useToggleButton(isBookmarked);
+    const { openModal } = useModal();
     const { mutate: addMutation } = useMutation(
       (itemId: string) => addToBookmark(itemId),
       {
         onSuccess: () => {
-          setBookmarked((prev) => !prev);
-          openModal(<Error />);
+          bookmark();
         },
         onError: () => {
-          
+          openModal(<Error />);
         },
       }
     );
@@ -39,7 +42,7 @@ const withBookmarkAPI =
       (itemId: string) => removeFromBookmark(itemId),
       {
         onSuccess: () => {
-          setBookmarked((prev) => !prev);
+          unBookmark();
         },
         onError: () => {
           openModal(<div>Something went wrong</div>);

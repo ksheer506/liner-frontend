@@ -1,12 +1,12 @@
 import { colors, SEARCH_PAGE_HEADER_HEIGHT } from "assets";
 import { PreviousButton } from "components/Buttons";
-import { SearchBarWithSearch } from "components/SearchBar/SearchBar";
-import { useSearchParams } from "react-router-dom";
+import { SearchBarWithSearchController as SearchBar } from "components/SearchBar/SearchBar";
+import { SEARCH_PARAM } from "constant";
+import { useGetQueryParam } from "hooks";
 import styled from "styled-components";
 
 export const DocumentHeader = () => {
-  const [searchParams] = useSearchParams();
-  const keyword = searchParams.get("keyword") || "";
+  const keyword = useGetQueryParam(SEARCH_PARAM);
 
   return (
     <HeaderBox>
@@ -32,6 +32,6 @@ const HeaderBox = styled.header`
   border-bottom: 1px solid ${colors("gray20")};
 `;
 
-const StyledSearch = styled(SearchBarWithSearch)`
+const StyledSearch = styled(SearchBar)`
   width: 644px;
 `;
