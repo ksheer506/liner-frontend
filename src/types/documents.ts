@@ -1,5 +1,8 @@
-export interface DocumentItemType {
+export interface Identified {
   id: string;
+}
+
+export interface DocumentItemType extends Identified {
   faviconUrl: string;
   imageUrl: string;
   title: string;
