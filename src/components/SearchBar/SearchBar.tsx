@@ -11,10 +11,21 @@ import type { WithSearchController } from "./withSearchController";
 type SearchBarProps = WithSearchController & {
   initialValue?: string;
   className?: string;
+  
 };
 
 const SearchBar = forwardRef<HTMLInputElement, SearchBarProps>(
-  ({ initialValue, onSearch, onDelete, className }, ref) => {
+  (
+    {
+      initialValue,
+      showDelete = false,
+      onSearch,
+      onChange,
+      onDelete,
+      className,
+    },
+    ref
+  ) => {
     return (
       <Box className={className}>
         <Input
@@ -22,15 +33,16 @@ const SearchBar = forwardRef<HTMLInputElement, SearchBarProps>(
           placeholder="Search keyword"
           ref={ref}
           onKeyUp={onSearch}
+          onChange={onChange}
         />
         <IconSearch />
-        <DeleteButton onDelete={onDelete} />
+        {showDelete && <DeleteButton onDelete={onDelete} />}
       </Box>
     );
   }
 );
 
-export const SearchBarWithSearch = withSearchController(SearchBar);
+export const SearchBarWithSearchController = withSearchController(SearchBar);
 
 const Box = styled.div`
   position: relative;
@@ -42,7 +54,7 @@ const Input = styled.input`
   width: 100%;
   height: 100%;
   font-size: 16px;
-  border: 2px solid ${colors("gray30")};
+  border: 1px solid ${colors("gray35")};
   border-radius: 1000px;
   padding-left: 57px;
   color: ${colors("gray50")};
@@ -57,7 +69,7 @@ const Input = styled.input`
 
   &:hover,
   &:focus {
-    border: 2px solid ${colors("liner50")};
+    border: 1.5px solid ${colors("liner50")};
   }
 `;
 

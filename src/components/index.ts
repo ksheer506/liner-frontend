@@ -8,4 +8,4 @@ export { ImageWithSkeleton } from "./ImageWithSkeleton/ImageWithSkeleton";
 export { ContentItemSkeleton } from "./Skeleton/ContentItemSkeleton";
 export { Circle, Rectangle } from "./Skeleton/Skeleton";
 export { SharedLayout } from "./SharedLayout/SharedLayout";
-export { SearchBarWithSearch as SearchBar } from "./SearchBar/SearchBar";
+export { SearchBarWithSearchController as SearchBar } from "./SearchBar/SearchBar";
