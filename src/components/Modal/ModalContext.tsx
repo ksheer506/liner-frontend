@@ -6,6 +6,7 @@ import {
   ReactNode,
   useCallback,
   useEffect,
+  useRef,
   useState,
 } from 'react';
 
@@ -22,14 +23,6 @@ import {
 export const MainCtx = createContext<MainContext | null>(null);
 export const CustomizeCtx = createContext<CustomizeContext | null>(null);
 export const OpenCtx = createContext<OpenContext | null>(null);
-const customize: CustomizeContext = {
-  setSize: null,
-  setPosition: null,
-};
-const modalCommand: MainContext = {
-  openModal: null,
-  closeModal: null,
-};
 
 export const ModalCtx = ({
   width,
@@ -38,6 +31,14 @@ export const ModalCtx = ({
   background = true,
   children,
 }: ModalContextProps) => {
+  const customize = useRef<CustomizeContext>({
+    setSize: null,
+    setPosition: null,
+  });
+  const modalCommand = useRef<MainContext>({
+    openModal: null,
+    closeModal: null,
+  });
   const [mount, setMount] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [modalSize, setModalSize] = useState<Size>({ width, height });
@@ -83,15 +84,15 @@ export const ModalCtx = ({
     return () => clearTimeout(timerId);
   }, [isOpen]);
 
-  customize.setSize = setModalSize;
-  customize.setPosition = setModalPosition;
+  customize.current.setSize = setModalSize;
+  customize.current.setPosition = setModalPosition;
 
-  modalCommand.openModal = openModal;
-  modalCommand.closeModal = closeModal;
+  modalCommand.current.openModal = openModal;
+  modalCommand.current.closeModal = closeModal;
 
   return (
-    <MainCtx.Provider value={modalCommand}>
-      <CustomizeCtx.Provider value={customize}>
+    <MainCtx.Provider value={modalCommand.current}>
+      <CustomizeCtx.Provider value={customize.current}>
         <OpenCtx.Provider value={{ isOpen, setIsOpen }}>
           {mount && (
             <Modal
