@@ -47,21 +47,6 @@ export const ModalCtx = ({
 
   const openModal = useCallback(
     (component: ReactNode) => {
-      /* console.log('openModal', 'mount', mount, 'isOpen', isOpen);
-      // 현재 context에 모달이 열려있으면 openModal()을 한번 더 실행했을 때 다른 context에서 뜨는 문제 발생
-      // 1. 열려있는 상태일 때 닫아주는 코드 추가: delayed unmount 때문에 350ms 이후에 닫아야 함
-      if (mount && isOpen) {
-        setIsOpen(false);
-        setMount(false);
-
-        setTimeout(() => {
-          setMount(true);
-          setIsOpen(true);
-          setContent(component);
-        }, 90);
-        return;
-      } */
-
       setMount(true);
       setIsOpen(true);
       setContent(component);

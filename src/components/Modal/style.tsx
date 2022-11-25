@@ -1,6 +1,5 @@
-import styled, { css } from "styled-components";
+import styled, { css, keyframes } from "styled-components";
 
-import { fadeIn, fadeOut } from "./animation";
 import { ModalStyle, Position } from "./types";
 
 export interface BackgroundProps {
@@ -12,6 +11,25 @@ type ModalMainProps = ModalStyle & BackgroundProps;
 const isPixel = ({ x, y }: Exclude<Position, undefined>) => {
   return x.match(/px/g) && y.match(/px/);
 };
+
+const fadeOut = keyframes`
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+`;
+
+const fadeIn = keyframes`
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+`;
+
 
 export const Background = styled.div`
   position: fixed;
