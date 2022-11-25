@@ -1,25 +1,26 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+import { useDocumentsAPI } from "apis";
 import { colors, SEARCH_PAGE_HEADER_HEIGHT } from "assets";
 import { ContentItemSkeleton } from "components/Skeleton/ContentItemSkeleton";
-import {useInfiniteScroll } from "hooks";
+import { useInfiniteScroll } from "hooks";
 import { useCallback } from "react";
 import styled from "styled-components";
 import { DocumentItemType } from "types";
 import { filterDuplicatedItems } from "utils";
 import { DocumentItem } from "./DocumentItem";
-import { useDocumentsAPI } from "./hooks/useDocumentsAPI";
 
-const matchDataToStatus = <T,>(
+const concatDummyDataOnFetch = <T,>(
   data: (T | number)[] = [],
+  itemsPerPage: number,
   isFetching: boolean,
-  itemsPerPage: number
+  isError: boolean
 ) => {
   // 로딩중임을 알려줄 Skeleton을 보여주기 위해 더미 배열 덧붙임
   const dummyArr = Array(itemsPerPage)
     .fill(0)
     .map((_, i) => data.length + i);
 
-  if (!isFetching) return data;
+  if (!isFetching && !isError) return data;
 
   // 1. 컴포넌트가 마운트될 때(result === undefined), 2. API 응답을 기다릴 때, 로딩중 Skeleton을 덧붙임
   return data.concat(dummyArr);
@@ -27,11 +28,17 @@ const matchDataToStatus = <T,>(
 
 const mapItemsWithSkeleton = (
   data: DocumentItemType[] | undefined,
+  itemsPerPage: number,
   isFetching: boolean,
-  itemsPerPage: number
+  isError: boolean
 ) => {
   const filtered = filterDuplicatedItems(data);
-  const dataWithDummy = matchDataToStatus(filtered, isFetching, itemsPerPage);
+  const dataWithDummy = concatDummyDataOnFetch(
+    filtered,
+    itemsPerPage,
+    isFetching,
+    isError
+  );
 
   return dataWithDummy.map((e) => {
     if (typeof e !== "number") {
@@ -55,8 +62,17 @@ const mapItemsWithSkeleton = (
 };
 
 export const DocumentList = () => {
-  const { data, size, fetchNextPage, isFetching, isError, hasNextPage } =
-    useDocumentsAPI();
+  const {
+    data,
+    size,
+    fetchNextPage,
+    isFetching,
+    isError,
+    isEndOfResult,
+    hasNoResult,
+    hasNextPage,
+  } = useDocumentsAPI();
+
   const onIntersecting = useCallback(() => {
     if (!hasNextPage) return;
 
@@ -64,23 +80,17 @@ export const DocumentList = () => {
   }, [hasNextPage]);
   const { bottomRef } = useInfiniteScroll({ onIntersecting });
 
-  const { pages } = data || {};
-
   return (
     <section>
       <ResultList>
-        {mapItemsWithSkeleton(pages, isFetching, size)}
+        {mapItemsWithSkeleton(data, size, isFetching, isError)}
       </ResultList>
-      {!hasNextPage && !!pages?.length && (
-        <DeadEnd>더이상 결과가 없습니다.</DeadEnd>
-      )}
-      {!isError && !pages?.length && <NoResult>검색 결과가 없습니다.</NoResult>}
+      {isEndOfResult && <DeadEnd>더이상 결과가 없습니다.</DeadEnd>}
+      {hasNoResult && <NoResult>검색 결과가 없습니다.</NoResult>}
       <div ref={bottomRef} />
     </section>
   );
 };
-
-const withNoResult = () => () => {}
 
 const ResultList = styled.ul`
   margin: 0;
