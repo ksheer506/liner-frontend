@@ -1,10 +1,20 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { ComponentType, KeyboardEvent, useCallback, useRef } from "react";
+import { useToggleButton } from "hooks";
+import {
+  ChangeEvent,
+  ComponentType,
+  KeyboardEvent,
+  useCallback,
+  useEffect,
+  useRef,
+} from "react";
 import { useNavigate } from "react-router";
 
 export interface WithSearchController {
+  showDelete?: boolean;
   onSearch(e: KeyboardEvent<HTMLInputElement>): void;
   onDelete(): void;
+  onChange(e: ChangeEvent<HTMLInputElement>): void;
 }
 
 export const withSearchController =
@@ -12,6 +22,7 @@ export const withSearchController =
   (props: P) => {
     const inputRef = useRef<HTMLInputElement>(null);
     const navigate = useNavigate();
+    const { state: isShown, hideButton, toggleOnCondition } = useToggleButton();
 
     const handleSearch = useCallback(
       ({ currentTarget, key }: KeyboardEvent<HTMLInputElement>) => {
@@ -24,15 +35,31 @@ export const withSearchController =
     );
 
     const handleDelete = useCallback(() => {
-      if (!inputRef.current) return;
+      const input = inputRef.current;
 
-      inputRef.current.value = "";
+      if (!input) return;
+
+      input.value = "";
+      hideButton();
+    }, []);
+
+    const handleChange = useCallback(
+      ({ target }: ChangeEvent<HTMLInputElement>) => {
+        toggleOnCondition(target.value);
+      },
+      []
+    );
+
+    useEffect(() => {
+      toggleOnCondition(inputRef.current?.value);
     }, []);
 
     return (
       <Component
         onSearch={handleSearch}
         onDelete={handleDelete}
+        onChange={handleChange}
+        showDelete={isShown}
         ref={inputRef}
         {...props}
       />

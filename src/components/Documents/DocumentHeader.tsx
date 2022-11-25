@@ -1,6 +1,6 @@
 import { colors, SEARCH_PAGE_HEADER_HEIGHT } from "assets";
 import { PreviousButton } from "components/Buttons";
-import { SearchBarWithSearchController as SearchBar } from "components/SearchBar/SearchBar";
+import { SearchBar } from "components/SearchBar/SearchBar";
 import { SEARCH_PARAM } from "constant";
 import { useGetQueryParam } from "hooks";
 import styled from "styled-components";
