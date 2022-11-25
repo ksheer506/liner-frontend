@@ -5,6 +5,7 @@ import { useGetQueryParam } from "hooks";
 import { useRef } from "react";
 import { useInfiniteQuery } from "react-query";
 import { Error } from "components/Modal/ModalContent/Error";
+import { infiniteQueryStatusFactory } from "utils";
 
 export const useDocumentsAPI = () => {
   const size = useRef(15);
@@ -46,11 +47,23 @@ export const useDocumentsAPI = () => {
       }
     );
 
+  const { pages } = data || {};
+
+  const result = infiniteQueryStatusFactory(pages?.length, {
+    isFetching,
+    isError,
+    hasNextPage,
+  });
+  const hasNoResult = result === "noResult";
+  const isEndOfResult = result === "endOfResult";
+
   return {
-    data,
+    data: pages,
     fetchNextPage,
     isFetching,
     isError,
+    isEndOfResult,
+    hasNoResult,
     hasNextPage,
     size: size.current,
   };
