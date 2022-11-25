@@ -1,6 +1,7 @@
 import { Rectangle } from "components/Skeleton/Skeleton";
-import { SyntheticEvent, useCallback, useState } from "react";
+import { memo } from "react";
 import styled, { css } from "styled-components";
+import { useImageEventHandler } from "./useImageEventHandler";
 
 interface ImageWithSkeletonProps {
   image: string | undefined;
@@ -9,47 +10,36 @@ interface ImageWithSkeletonProps {
   height: string;
 }
 
-export const ImageWithSkeleton = ({
-  image,
-  fallbackImage,
-  width,
-  height,
-}: ImageWithSkeletonProps) => {
-  const [imageLoading, setImageLoading] = useState(true);
+export const ImageWithSkeleton = memo(
+  ({ image, fallbackImage, width, height }: ImageWithSkeletonProps) => {
+    const { isLoading, onLoad, onError } = useImageEventHandler(fallbackImage);
 
-  const handleImageError = useCallback(
-    (e: SyntheticEvent<HTMLImageElement>, fallbackImg: string) => {
-      e.currentTarget.src = fallbackImg;
-    },
-    []
-  );
-
-  return (
-    <Box width={width} height={height}>
-      {imageLoading && <Rounded width="100%" height="100%" bgColor="#F2F3F7" />}
-      <Image
-        src={image || fallbackImage}
-        isLoading={imageLoading}
-        onLoad={() => setImageLoading(false)}
-        onError={(e) => handleImageError(e, fallbackImage)}
-      />
-    </Box>
-  );
-};
+    return (
+      <Box width={width} height={height}>
+        {isLoading && (
+          <Rectangle width="100%" height="100%" bgColor="#F2F3F7" />
+        )}
+        <Image
+          src={image || fallbackImage}
+          isLoading={isLoading}
+          onLoad={onLoad}
+          onError={onError}
+        />
+      </Box>
+    );
+  }
+);
 
 const Box = styled.div<Pick<ImageWithSkeletonProps, "width" | "height">>`
   width: ${({ width }) => width};
   height: ${({ height }) => height};
-`;
-
-const Rounded = styled(Rectangle)`
   border-radius: 12px;
+  overflow: hidden;
 `;
 
 const Image = styled.img<{ isLoading: boolean }>`
   width: 100%;
   height: 100%;
-  border-radius: 12px;
   object-fit: cover;
 
   ${({ isLoading }) =>
