@@ -31,8 +31,8 @@ export const DocumentItem = memo(
       <List>
         <ExternalLink link={url}>
           <ImageWithSkeleton
-            image={mainImage || DefaultThumb}
-            defaultImage={DefaultThumb}
+            image={mainImage}
+            fallbackImage={DefaultThumb}
             width="72px"
             height="72px"
           />
@@ -46,8 +46,8 @@ export const DocumentItem = memo(
           </Header>
           <Footer>
             <ImageWithSkeleton
-              image={faviconImage || DefaultFavi}
-              defaultImage={DefaultFavi}
+              image={faviconImage}
+              fallbackImage={DefaultFavi}
               width="14px"
               height="14px"
             />
