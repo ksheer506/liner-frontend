@@ -12,6 +12,10 @@ export const useToggleButton = (initialState: boolean = false) => {
     setState(false);
   }, []);
 
+  const toggle = useCallback(() => {
+    setState((prev) => !prev);
+  }, []);
+
   const toggleOnCondition = useCallback((condition: unknown) => {
     if (Boolean(condition)) {
       showButton();
@@ -21,5 +25,5 @@ export const useToggleButton = (initialState: boolean = false) => {
     hideButton();
   }, []);
 
-  return { state, showButton, hideButton, toggleOnCondition };
+  return { state, showButton, hideButton, toggle, toggleOnCondition };
 };
