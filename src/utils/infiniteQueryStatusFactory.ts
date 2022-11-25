@@ -9,7 +9,7 @@ export const infiniteQueryStatusFactory = (
   queryStatus: QueryStatus
 ) => {
   const { isFetching, isError, hasNextPage } = queryStatus;
-  const L = Number(dataLength);
+  const L = dataLength || 0;
 
   if (isFetching) return "fetching";
   if (isError) return "error";
