@@ -4,16 +4,21 @@ import styled from "styled-components";
 import { ReactComponent as IcSearch } from "../../assets/images/ic_search.svg";
 import { DeleteButton } from "components/Buttons";
 import { useSearchBar } from "./hooks/useSearchBar";
+import { SEARCH_PARAM } from "constant";
 
 interface SearchBarProps {
   initialValue?: string;
   className?: string;
+  onSearch?(value: string): void;
 }
 
-export const SearchBar = ({ initialValue, className }: SearchBarProps) => {
-  const { inputRef, isShown, handleSearch, handleDelete, handleChange } =
-    useSearchBar();
-  // FIXME: isShown, handleDelete 분리하기
+export const SearchBar = ({
+  initialValue,
+  onSearch,
+  className,
+}: SearchBarProps) => {
+  const { inputRef, isEmpty, handleSearch, handleDelete, handleChange } =
+    useSearchBar("/search", SEARCH_PARAM, onSearch);
 
   return (
     <Box className={className}>
@@ -25,7 +30,11 @@ export const SearchBar = ({ initialValue, className }: SearchBarProps) => {
         onKeyUp={handleSearch}
         onChange={handleChange}
       />
-      {isShown && <DeleteButton onDelete={handleDelete} />}
+      <DeleteButton
+        targetRef={inputRef}
+        isShown={!isEmpty}
+        onDelete={handleDelete}
+      />
     </Box>
   );
 };

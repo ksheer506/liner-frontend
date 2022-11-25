@@ -1,42 +1,58 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useToggleButton } from "hooks";
-import { ChangeEvent, KeyboardEvent, useCallback, useEffect, useRef } from "react";
+import {
+  ChangeEvent,
+  KeyboardEvent,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { useNavigate } from "react-router";
 
-export const useSearchBar =() => {
+export const useSearchBar = (
+  path: string,
+  searchParam: string,
+  onSearch?: (value: string) => void
+) => {
   const inputRef = useRef<HTMLInputElement>(null);
+  const [isEmpty, setIsEmpty] = useState(true);
   const navigate = useNavigate();
-  const { state: isShown, hideButton, toggleOnCondition } = useToggleButton();
+
+  const handleIsEmpty = useCallback((value: string | undefined) => {
+    const isInputEmpty = value === "";
+
+    if (isInputEmpty) {
+      setIsEmpty(true);
+      return;
+    }
+    setIsEmpty(false);
+  }, []);
 
   const handleSearch = useCallback(
     ({ currentTarget, key }: KeyboardEvent<HTMLInputElement>) => {
       if (!(currentTarget instanceof Element)) return;
       if (key !== "Enter") return;
 
-      navigate(`/search?keyword=${currentTarget.value}`);
+      onSearch?.(currentTarget.value);
+      navigate(`${path}?${searchParam}=${currentTarget.value}`);
     },
-    []
+    [path, searchParam]
   );
 
   const handleDelete = useCallback(() => {
-    const input = inputRef.current;
-
-    if (!input) return;
-
-    input.value = "";
-    hideButton();
+    setIsEmpty(true);
   }, []);
 
   const handleChange = useCallback(
     ({ target }: ChangeEvent<HTMLInputElement>) => {
-      toggleOnCondition(target.value);
+      handleIsEmpty(target.value);
     },
-    []
+    [isEmpty]
   );
 
   useEffect(() => {
-    toggleOnCondition(inputRef.current?.value);
+    handleIsEmpty(inputRef.current?.value);
   }, []);
 
-  return { inputRef, isShown, handleSearch, handleDelete, handleChange };
-} ;
+  return { inputRef, isEmpty, handleSearch, handleDelete, handleChange };
+};
