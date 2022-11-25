@@ -3,7 +3,7 @@ import { colors } from "assets";
 import styled from "styled-components";
 import { ReactComponent as IcSearch } from "../../assets/images/ic_search.svg";
 import { DeleteButton } from "components/Buttons";
-import { useSearchBar } from "./hooks/useSearchBar";
+import { useSearchBar } from "./useSearchBar";
 import { SEARCH_PARAM } from "constant";
 
 interface SearchBarProps {
@@ -38,36 +38,6 @@ export const SearchBar = ({
     </Box>
   );
 };
-
-/* const SearchBar = forwardRef<HTMLInputElement, SearchBarProps>(
-  (
-    {
-      initialValue,
-      showDelete = false,
-      onSearch,
-      onChange,
-      onDelete,
-      className,
-    },
-    ref
-  ) => {
-    return (
-      <Box className={className}>
-        <Input
-          defaultValue={initialValue}
-          placeholder="Search keyword"
-          ref={ref}
-          onKeyUp={onSearch}
-          onChange={onChange}
-        />
-        <IconSearch />
-        {showDelete && <DeleteButton onDelete={onDelete} />}
-      </Box>
-    );
-  }
-);
-
-export const SearchBarWithSearchController = withSearchController(SearchBar); */
 
 const Box = styled.div`
   position: relative;

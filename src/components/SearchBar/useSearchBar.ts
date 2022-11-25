@@ -33,8 +33,10 @@ export const useSearchBar = (
       if (!(currentTarget instanceof Element)) return;
       if (key !== "Enter") return;
 
-      onSearch?.(currentTarget.value);
-      navigate(`${path}?${searchParam}=${currentTarget.value}`);
+      const searchKeyword = currentTarget.value;
+      
+      onSearch?.(searchKeyword);
+      navigate(`${path}?${searchParam}=${searchKeyword}`);
     },
     [path, searchParam]
   );
