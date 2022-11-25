@@ -5,12 +5,16 @@ import { useNavigate } from "react-router";
 import styled from "styled-components";
 import { ReactComponent as PrevArrow } from "../../assets/images/ic_arrow back.svg";
 
-export const PreviousPage = () => {
+interface PreviousPageProps {
+  to?: string;
+}
+
+export const PreviousPage = ({ to = "/" }: PreviousPageProps) => {
   const navigate = useNavigate();
 
   const handlePrev = useCallback(() => {
-    navigate("/");
-  }, []);
+    navigate(`${to}`);
+  }, [to]);
 
   return (
     <Button onClick={handlePrev}>
