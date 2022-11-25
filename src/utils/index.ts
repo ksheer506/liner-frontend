@@ -1,4 +1,4 @@
 export  { infiniteQueryStatusFactory } from "./infiniteQueryStatusFactory";
 export { filterDuplicatedItems } from "./filterDuplicatedItems";
-export { sliceURL } from "./sliceURL";
+export { shortenURL } from "./shortenURL";
 export { axiosInstance } from "./axiosInstance";

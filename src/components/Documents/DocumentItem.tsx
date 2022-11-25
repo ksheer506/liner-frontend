@@ -4,7 +4,7 @@ import DefaultThumb from "../../assets/images/default_thumb.png";
 import DefaultFavi from "../../assets/images/default_favi.png";
 import { colors } from "assets";
 import { ToggleBookmark } from "components/Buttons";
-import { sliceURL } from "utils";
+import { shortenURL } from "utils";
 import { memo } from "react";
 import { ImageWithSkeleton } from "components/ImageWithSkeleton/ImageWithSkeleton";
 import { ExternalLink } from "components/ExternalLink/ExternalLink";
@@ -51,7 +51,7 @@ export const DocumentItem = memo(
               width="14px"
               height="14px"
             />
-            <URL>{sliceURL(url)}</URL>
+            <URL>{shortenURL(url)}</URL>
           </Footer>
         </ContentBox>
         <ToggleBookmark itemId={id} isBookmarked={isBookmarked} />
