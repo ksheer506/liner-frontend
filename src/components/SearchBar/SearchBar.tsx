@@ -2,19 +2,37 @@
 import { colors } from "assets";
 import styled from "styled-components";
 import { ReactComponent as IcSearch } from "../../assets/images/ic_search.svg";
-
-import { forwardRef } from "react";
 import { DeleteButton } from "components/Buttons";
 import { withSearchController } from "./withSearchController";
-import type { WithSearchController } from "./withSearchController";
+import { useSearchBar } from "./hooks/useSearchBar";
 
-type SearchBarProps = WithSearchController & {
+interface SearchBarProps {
   initialValue?: string;
   className?: string;
-  
-};
+}
 
-const SearchBar = forwardRef<HTMLInputElement, SearchBarProps>(
+export const SearchBar = ({ initialValue, className }: SearchBarProps) => {
+  const { inputRef, isShown, handleSearch, handleDelete, handleChange } =
+    useSearchBar();
+  // FIXME: isShown, handleDelete 분리하기
+
+  return (
+    <Box className={className}>
+      <Input
+        defaultValue={initialValue}
+        placeholder="Search keyword"
+        ref={inputRef}
+        onKeyUp={handleSearch}
+        onChange={handleChange}
+      />
+      <IconSearch />
+      {isShown && <DeleteButton onDelete={handleDelete} />}
+    </Box>
+  );
+};
+export const SearchBarWithSearchController = withSearchController(SearchBar);
+
+/* const SearchBar = forwardRef<HTMLInputElement, SearchBarProps>(
   (
     {
       initialValue,
@@ -42,7 +60,7 @@ const SearchBar = forwardRef<HTMLInputElement, SearchBarProps>(
   }
 );
 
-export const SearchBarWithSearchController = withSearchController(SearchBar);
+export const SearchBarWithSearchController = withSearchController(SearchBar); */
 
 const Box = styled.div`
   position: relative;
@@ -70,6 +88,7 @@ const Input = styled.input`
   &:hover,
   &:focus {
     border: 1.5px solid ${colors("liner50")};
+    padding-left: 56.5px;
   }
 `;
 
