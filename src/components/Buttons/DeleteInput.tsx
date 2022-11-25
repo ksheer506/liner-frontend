@@ -1,14 +1,33 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { colors } from "assets";
+import { useToggleButton } from "hooks";
+import { RefObject, useCallback } from "react";
 import styled from "styled-components";
 import { ReactComponent as IcDelete } from "../../assets/images/ic_delete.svg";
 
 interface DeleteInputProps {
-  onDelete(): void;
+  targetRef: RefObject<HTMLInputElement | HTMLTextAreaElement>;
+  isShown?: boolean;
+  onDelete?(): void;
 }
-export const DeleteInput = ({ onDelete }: DeleteInputProps) => {
+export const DeleteInput = ({
+  targetRef,
+  isShown = true,
+  onDelete,
+}: DeleteInputProps) => {
+  const { hideButton } = useToggleButton();
+
+  const handleClick = useCallback(() => {
+    if (!targetRef.current) return;
+
+    targetRef.current.value = "";
+    hideButton();
+    onDelete?.();
+  }, [targetRef, onDelete]);
+
   return (
-    <DeleteButton onClick={onDelete}>
-      <IconDelete />
+    <DeleteButton onClick={handleClick} disabled={!isShown}>
+      {isShown && <IconDelete />}
     </DeleteButton>
   );
 };
