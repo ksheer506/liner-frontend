@@ -1,4 +1,4 @@
-import { searchDocuments } from "apis";
+import { documentsKeys, searchDocuments } from "apis";
 import { useModal } from "components/Modal";
 import { SEARCH_PARAM } from "constant";
 import { useGetQueryParam } from "hooks";
@@ -13,7 +13,7 @@ export const useDocumentsAPI = () => {
 
   const { data, fetchNextPage, isFetching, isError, hasNextPage } =
     useInfiniteQuery(
-      ["documents", keyword],
+      documentsKeys.list(keyword),
       ({ pageParam = 0 }) =>
         searchDocuments({
           keyword,
