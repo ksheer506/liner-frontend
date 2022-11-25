@@ -4,24 +4,10 @@ import { ContentItemSkeleton } from "components/Skeleton/ContentItemSkeleton";
 import {useInfiniteScroll } from "hooks";
 import { useCallback } from "react";
 import styled from "styled-components";
-import { DocumentItemType, Identified } from "types";
+import { DocumentItemType } from "types";
+import { filterDuplicatedItems } from "utils";
 import { DocumentItem } from "./DocumentItem";
 import { useDocumentsAPI } from "./hooks/useDocumentsAPI";
-
-const filterDuplicatedItems = <T extends Identified>(data: T[] = []) => {
-  const idMap = new Map(data.map(({ id }) => [id, 0]));
-
-  return data.filter(({ id }) => {
-    const firstAppearance = idMap.get(id) === 0;
-
-    if (firstAppearance) {
-      idMap.set(id, 1);
-
-      return true;
-    }
-    return false;
-  });
-};
 
 const matchDataToStatus = <T,>(
   data: (T | number)[] = [],
@@ -93,6 +79,8 @@ export const DocumentList = () => {
     </section>
   );
 };
+
+const withNoResult = () => () => {}
 
 const ResultList = styled.ul`
   margin: 0;
