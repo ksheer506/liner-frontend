@@ -1,8 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect } from "react";
 
-import { CustomizeCtx, MainCtx } from "./ModalContext";
-import { Position, Size } from "./types";
+import { CustomizeCtx, MainCtx } from "../ModalContext";
+import { Position, Size } from "../types";
 import useAppContext from "./useAppContext";
 
 type useModalProps =

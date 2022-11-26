@@ -1,10 +1,11 @@
 import { LinerButton } from "components/Buttons";
 import styled from "styled-components";
 import { ReactComponent as IcClose } from "../../../assets/images/ic_close.svg";
-import useModal from "../useModal";
+import useModal from "../hooks/useModal";
 
 export const Error = () => {
   const { closeModal } = useModal();
+
   return (
     <Box>
       <Header>
