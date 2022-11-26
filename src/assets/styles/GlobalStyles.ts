@@ -3,6 +3,7 @@ import { createGlobalStyle } from "styled-components";
 const GlobalStyles = createGlobalStyle`
   * {
     box-sizing: border-box;
+    font-family: 'SF Pro Display', sans-serif;
   }
 
   body {
@@ -36,11 +37,6 @@ const GlobalStyles = createGlobalStyle`
     background-color: rgba(0, 0, 0, 0);
     cursor: pointer;
   }
-
-  /* div.Toastify__toast-container--top-right {
-    top: 70px;
-    font-size: 14px;
-  } */
 `;
 
 export default GlobalStyles;
