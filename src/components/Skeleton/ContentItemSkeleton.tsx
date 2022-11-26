@@ -1,7 +1,8 @@
+import { memo } from "react";
 import styled from "styled-components";
 import { Rectangle } from "./Skeleton";
 
-export const ContentItemSkeleton = () => {
+export const ContentItemSkeleton = memo(() => {
   return (
     <List>
       <Rounded width="72px" height="72px" bgColor="#F2F3F7" />
@@ -15,7 +16,7 @@ export const ContentItemSkeleton = () => {
       </ContentBox>
     </List>
   );
-};
+});
 
 const Rounded = styled(Rectangle)`
   border-radius: 12px;
