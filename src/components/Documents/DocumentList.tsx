@@ -3,8 +3,9 @@ import { useDocumentsAPI } from "apis";
 import { colors, SEARCH_PAGE_HEADER_HEIGHT } from "assets";
 import { NoResult } from "components/NoResult/NoResult";
 import { ContentItemSkeleton } from "components/Skeleton/ContentItemSkeleton";
-import { useInfiniteScroll } from "hooks";
-import { useCallback } from "react";
+import { SEARCH_PARAM } from "constant";
+import { useGetQueryParam, useInfiniteScroll } from "hooks";
+import { useEffect } from "react";
 import styled from "styled-components";
 import { DocumentItemType } from "types";
 import { DocumentItem } from "./DocumentItem";
@@ -49,6 +50,7 @@ const mapItemsWithSkeleton = (data: (DocumentItemType | number)[] = []) => {
 };
 
 export const DocumentList = () => {
+  const keyword = useGetQueryParam(SEARCH_PARAM);
   const {
     data,
     size,
@@ -57,17 +59,14 @@ export const DocumentList = () => {
     isError,
     isEndOfResult,
     hasNoResult,
-    hasNextPage,
-  } = useDocumentsAPI();
-
-  const onIntersecting = useCallback(() => {
-    if (!hasNextPage) return;
-
-    fetchNextPage();
-  }, [hasNextPage]);
-  const { bottomRef } = useInfiniteScroll({ onIntersecting });
+  } = useDocumentsAPI(keyword);
+  const { bottomRef } = useInfiniteScroll({ onIntersecting: fetchNextPage });
 
   const dataWithDummy = concatDummyDataOnFetch(data, size, isFetching, isError);
+
+  useEffect(() => {
+    window.scrollTo({ top: 0 });
+  }, [keyword]);
 
   return (
     <section>
