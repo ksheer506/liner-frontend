@@ -54,6 +54,7 @@ export const DocumentItem = memo(
             <URL>{shortenURL(url)}</URL>
           </Footer>
         </ContentBox>
+
         <ToggleBookmark itemId={id} isBookmarked={isBookmarked} />
       </List>
     );

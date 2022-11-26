@@ -5,7 +5,7 @@ import { useGetQueryParam } from "hooks";
 import { useRef } from "react";
 import { useInfiniteQuery } from "react-query";
 import { Error } from "components/Modal/ModalContent/Error";
-import { infiniteQueryStatusFactory } from "utils";
+import { filterDuplicatedItems, infiniteQueryStatusFactory } from "utils";
 
 export const useDocumentsAPI = () => {
   const size = useRef(15);
@@ -38,8 +38,9 @@ export const useDocumentsAPI = () => {
           const transformedPages = data.pages
             .map(({ documents }) => documents)
             .flat();
-
-          return { ...data, pages: transformedPages };
+          const filtered = filterDuplicatedItems(transformedPages);
+          
+          return { ...data, pages: filtered };
         },
         staleTime: Infinity,
         cacheTime: 0,

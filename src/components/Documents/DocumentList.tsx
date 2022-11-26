@@ -7,7 +7,6 @@ import { useInfiniteScroll } from "hooks";
 import { useCallback } from "react";
 import styled from "styled-components";
 import { DocumentItemType } from "types";
-import { filterDuplicatedItems } from "utils";
 import { DocumentItem } from "./DocumentItem";
 
 const concatDummyDataOnFetch = <T,>(
@@ -27,21 +26,8 @@ const concatDummyDataOnFetch = <T,>(
   return data.concat(dummyArr);
 };
 
-const mapItemsWithSkeleton = (
-  data: DocumentItemType[] | undefined,
-  itemsPerPage: number,
-  isFetching: boolean,
-  isError: boolean
-) => {
-  const filtered = filterDuplicatedItems(data);
-  const dataWithDummy = concatDummyDataOnFetch(
-    filtered,
-    itemsPerPage,
-    isFetching,
-    isError
-  );
-
-  return dataWithDummy.map((e) => {
+const mapItemsWithSkeleton = (data: (DocumentItemType | number)[] = []) => {
+  return data.map((e) => {
     if (typeof e !== "number") {
       const { title, url, imageUrl, faviconUrl, isSaved, id } = e;
 
@@ -81,11 +67,11 @@ export const DocumentList = () => {
   }, [hasNextPage]);
   const { bottomRef } = useInfiniteScroll({ onIntersecting });
 
+  const dataWithDummy = concatDummyDataOnFetch(data, size, isFetching, isError);
+
   return (
     <section>
-      <ResultList>
-        {mapItemsWithSkeleton(data, size, isFetching, isError)}
-      </ResultList>
+      <ResultList>{mapItemsWithSkeleton(dataWithDummy)}</ResultList>
       {isEndOfResult && <DeadEnd>더이상 결과가 없습니다.</DeadEnd>}
       {hasNoResult && <NoResult />}
       <div ref={bottomRef} />
