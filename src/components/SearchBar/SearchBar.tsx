@@ -3,7 +3,7 @@ import { colors } from "assets";
 import styled from "styled-components";
 import { ReactComponent as IcSearch } from "../../assets/images/ic_search.svg";
 import { DeleteButton } from "components/Buttons";
-import { useSearchBar } from "./useSearchBar";
+import { useSearchBar } from "./hooks/useSearchBar";
 import { SEARCH_PARAM } from "constant";
 
 interface SearchBarProps {

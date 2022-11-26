@@ -1,13 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import {
-  ChangeEvent,
-  KeyboardEvent,
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import { ChangeEvent, KeyboardEvent, useCallback, useRef } from "react";
 import { useNavigate } from "react-router";
+import { useCheckInputEmptiness } from "./useCheckInputEmptiness";
 
 export const useSearchBar = (
   path: string,
@@ -15,18 +9,9 @@ export const useSearchBar = (
   onSearch?: (value: string) => void
 ) => {
   const inputRef = useRef<HTMLInputElement>(null);
-  const [isEmpty, setIsEmpty] = useState(true);
+  const { isEmpty, handleIsEmpty, handleDelete } =
+    useCheckInputEmptiness(inputRef);
   const navigate = useNavigate();
-
-  const handleIsEmpty = useCallback((value: string | undefined) => {
-    const isInputEmpty = value === "";
-
-    if (isInputEmpty) {
-      setIsEmpty(true);
-      return;
-    }
-    setIsEmpty(false);
-  }, []);
 
   const handleSearch = useCallback(
     ({ currentTarget, key }: KeyboardEvent<HTMLInputElement>) => {
@@ -34,16 +19,12 @@ export const useSearchBar = (
       if (key !== "Enter") return;
 
       const searchKeyword = currentTarget.value;
-      
+
       onSearch?.(searchKeyword);
       navigate(`${path}?${searchParam}=${searchKeyword}`);
     },
     [path, searchParam]
   );
-
-  const handleDelete = useCallback(() => {
-    setIsEmpty(true);
-  }, []);
 
   const handleChange = useCallback(
     ({ target }: ChangeEvent<HTMLInputElement>) => {
@@ -51,10 +32,6 @@ export const useSearchBar = (
     },
     [isEmpty]
   );
-
-  useEffect(() => {
-    handleIsEmpty(inputRef.current?.value);
-  }, []);
 
   return { inputRef, isEmpty, handleSearch, handleDelete, handleChange };
 };
