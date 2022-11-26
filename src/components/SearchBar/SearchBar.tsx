@@ -22,7 +22,6 @@ export const SearchBar = ({
 
   return (
     <Box className={className}>
-      <IconSearch />
       <Input
         defaultValue={initialValue}
         placeholder="Search keyword"
@@ -30,6 +29,7 @@ export const SearchBar = ({
         onKeyUp={handleSearch}
         onChange={handleChange}
       />
+      <IconSearch />
       <DeleteButton
         targetRef={inputRef}
         isShown={!isEmpty}
