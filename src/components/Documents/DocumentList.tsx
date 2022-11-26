@@ -1,6 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useDocumentsAPI } from "apis";
 import { colors, SEARCH_PAGE_HEADER_HEIGHT } from "assets";
+import { NoResult } from "components/NoResult/NoResult";
 import { ContentItemSkeleton } from "components/Skeleton/ContentItemSkeleton";
 import { useInfiniteScroll } from "hooks";
 import { useCallback } from "react";
@@ -86,7 +87,7 @@ export const DocumentList = () => {
         {mapItemsWithSkeleton(data, size, isFetching, isError)}
       </ResultList>
       {isEndOfResult && <DeadEnd>더이상 결과가 없습니다.</DeadEnd>}
-      {hasNoResult && <NoResult>검색 결과가 없습니다.</NoResult>}
+      {hasNoResult && <NoResult />}
       <div ref={bottomRef} />
     </section>
   );
@@ -109,15 +110,4 @@ const DeadEnd = styled.div`
   color: ${colors("gray35")};
   font-weight: 700;
   font-size: 14px;
-`;
-
-const NoResult = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: calc(95vh - ${SEARCH_PAGE_HEADER_HEIGHT});
-
-  color: ${colors("gray35")};
-  font-weight: 700;
-  font-size: 22px;
 `;

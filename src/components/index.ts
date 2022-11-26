@@ -1,3 +1,4 @@
+export  { NoResult } from "./NoResult/NoResult";
 export { Error } from "./Modal/ModalContent/Error";
 export { Modal, useModal } from "./Modal";
 export { DocumentList } from "./Documents/DocumentList";
