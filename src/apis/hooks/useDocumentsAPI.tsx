@@ -1,15 +1,23 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { documentsKeys, searchDocuments } from "apis";
 import { useModal } from "components/Modal";
-import { SEARCH_PARAM } from "constant";
-import { useGetQueryParam } from "hooks";
-import { useRef } from "react";
+import { useCallback, useRef } from "react";
 import { useInfiniteQuery } from "react-query";
 import { Error } from "components/Modal/ModalContent/Error";
 import { filterDuplicatedItems, infiniteQueryStatusFactory } from "utils";
 
-export const useDocumentsAPI = () => {
+const getNextFrom = (isLast: boolean, size: number, allPages: unknown[]) => {
+  const nextFrom = allPages.length * size;
+
+  if (isLast) {
+    return undefined;
+  }
+
+  return nextFrom;
+};
+
+export const useDocumentsAPI = (keyword: string) => {
   const size = useRef(15);
-  const keyword = useGetQueryParam(SEARCH_PARAM);
   const { openModal } = useModal();
 
   const { data, fetchNextPage, isFetching, isError, hasNextPage } =
@@ -22,24 +30,17 @@ export const useDocumentsAPI = () => {
           from: pageParam,
         }),
       {
-        getNextPageParam: ({ isLast }, allPages) => {
-          const nextFrom = allPages.length * size.current;
-
-          if (isLast) {
-            return undefined;
-          }
-
-          return nextFrom;
-        },
+        getNextPageParam: ({ isLast }, allPages) =>
+          getNextFrom(isLast, size.current, allPages),
         onError: () => {
           openModal(<Error />);
         },
         select: (data) => {
-          const transformedPages = data.pages
-            .map(({ documents }) => documents)
-            .flat();
+          const transformedPages = data.pages.flatMap(
+            ({ documents }) => documents
+          );
           const filtered = filterDuplicatedItems(transformedPages);
-          
+
           return { ...data, pages: filtered };
         },
         staleTime: Infinity,
@@ -47,6 +48,12 @@ export const useDocumentsAPI = () => {
         retry: 2,
       }
     );
+
+  const fetchNextPageWhenAvailable = useCallback(() => {
+    if (!hasNextPage) return;
+
+    fetchNextPage();
+  }, [hasNextPage]);
 
   const { pages } = data || {};
 
@@ -60,12 +67,12 @@ export const useDocumentsAPI = () => {
 
   return {
     data: pages,
-    fetchNextPage,
     isFetching,
     isError,
     isEndOfResult,
     hasNoResult,
     hasNextPage,
+    fetchNextPage: fetchNextPageWhenAvailable,
     size: size.current,
   };
 };
