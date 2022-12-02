@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { documentsKeys, searchDocuments } from "apis";
 import { useModal } from "components/Modal";
-import { useCallback, useRef } from "react";
+import { useCallback, useState } from "react";
 import { useInfiniteQuery } from "react-query";
 import { Error } from "components/Modal/ModalContent/Error";
 import { filterDuplicatedItems, infiniteQueryStatusFactory } from "utils";
@@ -16,8 +16,8 @@ const getNextFrom = (isLast: boolean, size: number, allPages: unknown[]) => {
   return nextFrom;
 };
 
-export const useDocumentsAPI = (keyword: string) => {
-  const size = useRef(15);
+export const useDocumentsAPI = (keyword: string, length: number = 15) => {
+  const [size, setSize] = useState(length);
   const { openModal } = useModal();
 
   const { data, fetchNextPage, isFetching, isError, hasNextPage } =
@@ -26,12 +26,12 @@ export const useDocumentsAPI = (keyword: string) => {
       ({ pageParam = 0 }) =>
         searchDocuments({
           keyword,
-          size: size.current,
+          size,
           from: pageParam,
         }),
       {
         getNextPageParam: ({ isLast }, allPages) =>
-          getNextFrom(isLast, size.current, allPages),
+          getNextFrom(isLast, size, allPages),
         onError: () => {
           openModal(<Error />);
         },
@@ -73,6 +73,7 @@ export const useDocumentsAPI = (keyword: string) => {
     hasNoResult,
     hasNextPage,
     fetchNextPage: fetchNextPageWhenAvailable,
-    size: size.current,
+    size,
+    setSize,
   };
 };

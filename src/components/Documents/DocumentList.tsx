@@ -4,7 +4,12 @@ import { colors, SEARCH_PAGE_HEADER_HEIGHT } from "assets";
 import { NoResult } from "components/NoResult/NoResult";
 import { ContentItemSkeleton } from "components/Skeleton/ContentItemSkeleton";
 import { SEARCH_PARAM } from "constant";
-import { useGetQueryParam, useInfiniteScroll } from "hooks";
+import {
+  useGetQueryParam,
+  useInfiniteScroll,
+  useScrollRestoration,
+  useScrollTo,
+} from "hooks";
 import { useEffect } from "react";
 import styled from "styled-components";
 import { DocumentItemType } from "types";
@@ -54,6 +59,7 @@ export const DocumentList = () => {
   const {
     data,
     size,
+    setSize,
     fetchNextPage,
     isFetching,
     isError,
@@ -62,14 +68,16 @@ export const DocumentList = () => {
   } = useDocumentsAPI(keyword);
   const { bottomRef } = useInfiniteScroll({ onIntersecting: fetchNextPage });
 
+  useScrollTo(0, [keyword]);
+  const [recordY] = useScrollRestoration({
+    storageKey: "search",
+    beforeScroll: () => setSize(20),
+  });
+
   const dataWithDummy = concatDummyDataOnFetch(data, size, isFetching, isError);
-
-  useEffect(() => {
-    window.scrollTo({ top: 0 });
-  }, [keyword]);
-
+  console.log(dataWithDummy);
   return (
-    <section>
+    <section onClickCapture={() => recordY()}>
       <ResultList>{mapItemsWithSkeleton(dataWithDummy)}</ResultList>
       {isEndOfResult && <DeadEnd>더이상 결과가 없습니다.</DeadEnd>}
       {hasNoResult && <NoResult />}
