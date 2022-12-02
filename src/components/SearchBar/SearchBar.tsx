@@ -33,6 +33,7 @@ export const SearchBar = ({
       <DeleteButton
         targetRef={inputRef}
         isShown={!isEmpty}
+        position={{ bottom: "50%", right: "18px" }}
         onDelete={handleDelete}
       />
     </Box>
