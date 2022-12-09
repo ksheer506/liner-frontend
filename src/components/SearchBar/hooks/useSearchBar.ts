@@ -30,7 +30,7 @@ export const useSearchBar = (
     ({ target }: ChangeEvent<HTMLInputElement>) => {
       handleIsEmpty(target.value);
     },
-    [isEmpty]
+    []
   );
 
   return { inputRef, isEmpty, handleSearch, handleDelete, handleChange };

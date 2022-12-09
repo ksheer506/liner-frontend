@@ -1,3 +1,4 @@
+export { useScrollTo } from "./useScrollTo";
 export { useGetQueryParam } from "./useGetQueryParam";
 export { useToggleButton } from "./useToggleButton";
 export { useScrollRestoration } from "./useScrollRestoration";
